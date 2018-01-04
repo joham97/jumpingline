@@ -80,7 +80,7 @@ public class MyRectangle {
 	}
 
 	public boolean collision(MyRectangle col) {
-		return x < col.x + col.width && x + width > col.x && y < col.y + col.height && height + y > col.y;
+		return this.x < col.x + col.width && this.x + this.width > col.x && this.y < col.y + col.height && this.height + this.y > col.y;
 	}
 
 }

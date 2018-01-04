@@ -20,6 +20,8 @@ public class GameScreen implements Screen{
 	private OrthographicCamera cam;
 	private Viewport viewport;
 	
+	private InputHandler inputHandler;
+	
 	private World world;
 	
 	private HUD hud;
@@ -37,12 +39,14 @@ public class GameScreen implements Screen{
 		this.cam = new OrthographicCamera();
 		this.viewport = new FitViewport(JumpingLine.GAME_WIDTH, JumpingLine.GAME_HEIGHT, this.cam);
 		this.viewport.apply();
+		
+		this.inputHandler = new InputHandler(this.hudCam, this.hudViewport);
 
-		world = new World();
+		this.world = new World(this.inputHandler);
 	}
 
 	private void update(float delta) {
-		world.update(delta);
+		this.world.update(delta);
 	}
 
 	@Override
@@ -50,7 +54,7 @@ public class GameScreen implements Screen{
 		update(delta);
 
 		// Camera Position
-		this.viewport.getCamera().position.set(world.getCamX(), world.getCamY(), 0);
+		this.viewport.getCamera().position.set(this.world.getCamX(), this.world.getCamY(), 0);
 		this.cam.zoom = 1;
 		this.viewport.apply();
 
@@ -65,7 +69,7 @@ public class GameScreen implements Screen{
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		
-		world.render(this.game.getSpriteBatch(), this.game.getShapeRenderer(), this.game.getFont());
+		this.world.render(this.game.getSpriteBatch(), this.game.getShapeRenderer(), this.game.getFont());
 		
 		// Attach Viewport to SpriteBatch and Shaperenderer
 		this.game.getSpriteBatch().setProjectionMatrix(this.hudViewport.getCamera().combined);
@@ -84,6 +88,7 @@ public class GameScreen implements Screen{
 	@Override
 	public void resize(int width, int height) {
 		this.viewport.update(width, height);
+		this.hudViewport.update(width, height);
 	}
 
 	@Override

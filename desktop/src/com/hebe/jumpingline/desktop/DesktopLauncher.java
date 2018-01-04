@@ -9,8 +9,8 @@ import com.hebe.jumpingline.JumpingLine;
 
 public class DesktopLauncher {
 
-	public static int WIDTH = 1920;
-	public static int HEIGHT = 1080;
+	public static int WIDTH = 1920/2;
+	public static int HEIGHT = 1080/2;
 
 	public static void main(String[] arg) {
 		Toolkit tk = Toolkit.getDefaultToolkit();
